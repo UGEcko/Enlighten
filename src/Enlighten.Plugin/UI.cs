@@ -66,6 +66,11 @@ namespace Enlighten.src.Enlighten.Plugin
 			panel = UnityEngine.Object.Instantiate(panelAsset, canvas).GetComponent<EnlightenPanel>();
 			panel.Initialize();
 			panel.run.onClick.AddListener(Run);
+
+			var ri = panel.gameObject.GetComponent<RawImage>();
+			ri.material = null;
+			ri.color = new Color(0.2f, 0.2f, 0.2f,1f);
+			panel.gameObject.transform.Find("Outline").transform.gameObject.SetActive(false);
 			panel.gameObject.SetActive(false);
 		}
 
