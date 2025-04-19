@@ -15,6 +15,7 @@ namespace Enlighten.UI
 		private BundleLoading.Assets m_assets;
 		private GenericParameter<T> m_parameter;
 		private ChartKeyframe[] m_keyframes;
+		private int m_currentSelectedIndex = -1;
 
 		private const float DOUBLE_CLICK_DURATION = 0.5f;
 		private Coroutine m_clickedCoroutine;
@@ -29,6 +30,13 @@ namespace Enlighten.UI
 			Transform graph = transform.Find("Graph");
 			m_pointsParent = graph.Find("Points").GetComponent<RectTransform>();
 			m_curveRenderer = graph.Find("Curves").gameObject.AddComponent<ChartCurveRenderer>();
+
+			m_onKeyframeSelected.AddListener(OnKeyframeSelected);
+		}
+
+		private void OnKeyframeSelected(int index)
+		{
+			m_currentSelectedIndex = index;
 		}
 
 		public void OpenParameter(GenericParameter<T> parameter)
@@ -212,6 +220,27 @@ namespace Enlighten.UI
 			Vector2 chartPosition = LocalToChartPosition(localPosition);
 			GenericParameter<T>.Keyframe keyframe = ChartPositionToKeyframe(chartPosition);
 			m_parameter.Add(keyframe);
+			RedrawCompletely();
+			m_onKeyframeSelected.Invoke(m_parameter.Count - 1);
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace))
+			{
+				DeleteSelectedKeyframe();
+			}
+		}
+
+		private void DeleteSelectedKeyframe()
+		{
+			if (m_currentSelectedIndex == -1)
+				return;
+
+			if (m_parameter.Count < 2)
+				return;
+
+			m_parameter.RemoveAt(m_currentSelectedIndex);
 			RedrawCompletely();
 			m_onKeyframeSelected.Invoke(m_parameter.Count - 1);
 		}
