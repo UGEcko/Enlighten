@@ -18,7 +18,7 @@ namespace Enlighten.UI
 
         public override void UpdateUI()
         {
-            string text = CurrentValue.ToString(CultureInfo.InvariantCulture);
+            string text = CurrentValue.ToString("0.##");
             m_inputField.SetTextWithoutNotify(text);
         }
 
