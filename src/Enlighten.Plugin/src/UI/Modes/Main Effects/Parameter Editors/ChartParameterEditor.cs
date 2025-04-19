@@ -202,14 +202,7 @@ namespace Enlighten.UI
 
 		private IEnumerator ClickedTimer()
 		{
-			float timer = 0;
-
-			while (timer < DOUBLE_CLICK_DURATION)
-			{
-				timer += Time.deltaTime;
-				yield return null;
-			}
-
+			yield return new WaitForSeconds(DOUBLE_CLICK_DURATION);
 			m_clickedCoroutine = null;
 		}
 
