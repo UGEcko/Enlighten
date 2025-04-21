@@ -30,6 +30,7 @@ namespace Enlighten.UI
 
 		public void Initialize(TP parameter)
 		{
+			base.Initialize();
 			m_parameter = parameter;
 			Text nameText = transform.Find("Name").GetComponent<Text>();
 			nameText.text = m_parameter.m_name;

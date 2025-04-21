@@ -58,8 +58,16 @@ namespace Enlighten.UI
 				m_currentParameterEditor = null;
 			}
 
+			if (m_currentParameterUI != null)
+			{
+				m_currentParameterUI.HideSelectionIndicator();
+				m_currentParameterUI = null;
+			}
+
 			m_currentParameterUI = parameterUI;
 			m_currentParameterEditor = parameterEditor;
+			
+			m_currentParameterUI.ShowSelectionIndicator();
 			m_currentParameterEditor.gameObject.SetActive(true);
 			LayoutRebuilder.ForceRebuildLayoutImmediate(m_editorParent);
 			m_currentParameterEditor.RedrawCompletely();

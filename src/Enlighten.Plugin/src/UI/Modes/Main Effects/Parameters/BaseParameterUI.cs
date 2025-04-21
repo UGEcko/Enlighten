@@ -7,10 +7,23 @@ namespace Enlighten.UI
 	public abstract class BaseParameterUI : MonoBehaviour, IPointerDownHandler
 	{
 		protected int m_selectedKeyframeIndex;
-
-		private void Awake()
+		private GameObject m_selectionIndicator;
+		
+		public void Initialize()
 		{
 			m_onUIChanged.AddListener(m_onInteracted.Invoke);
+			m_selectionIndicator = transform.Find("Selection Indicator").gameObject;
+			HideSelectionIndicator();
+		}
+
+		public void HideSelectionIndicator()
+		{
+			m_selectionIndicator.SetActive(false);
+		}
+
+		public void ShowSelectionIndicator()
+		{
+			m_selectionIndicator.SetActive(true);
 		}
 
 		public abstract void UpdateUI();
