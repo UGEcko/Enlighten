@@ -53,9 +53,10 @@ namespace Enlighten.UI
 			m_selectedKeyframeIndicator.transform.position = m_keyframes[index].transform.position;
 		}
 
-		public void OpenParameter(GenericParameter<T> parameter)
+		public void OpenParameter(GenericParameter<T> parameter, int selectedKeyframeIndex)
 		{
 			m_parameter = parameter;
+			m_currentSelectedIndex = selectedKeyframeIndex;
 		}
 
 		private IEnumerable<ChartKeyframe> GetKeyframes()
@@ -141,6 +142,7 @@ namespace Enlighten.UI
 			}
 			m_keyframes = GetKeyframes().ToArray();
 			UpdateKeyframePositions();
+			UpdateSelectedKeyframeIndicator(m_currentSelectedIndex);
 		}
 
 		public override void RedrawCompletely()
@@ -210,8 +212,8 @@ namespace Enlighten.UI
 				return;
 
 			m_parameter.RemoveAt(m_currentSelectedIndex);
-			RedrawCompletely();
 			m_onKeyframeSelected.Invoke(m_parameter.Count - 1);
+			RedrawCompletely();
 		}
 	}
 }
