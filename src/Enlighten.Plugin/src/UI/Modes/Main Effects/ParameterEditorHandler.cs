@@ -34,6 +34,7 @@ namespace Enlighten.UI
 
 			m_floatParameterEditor.OpenParameter(floatParameterUI.m_parameter);
 			SetupParameter(floatParameterUI, m_floatParameterEditor);
+			m_floatParameterEditor.m_onKeyframeSelected.Invoke(floatParameterUI.SelectedKeyframeIndex);
 		}
 
 		public void SelectRangeParameter(RangeParameterUI rangeParameterUI)
@@ -48,6 +49,7 @@ namespace Enlighten.UI
 			
 			m_boolParameterEditor.OpenParameter(boolParameterUI.m_parameter);
 			SetupParameter(boolParameterUI, m_boolParameterEditor);
+			m_boolParameterEditor.m_onKeyframeSelected.Invoke(boolParameterUI.SelectedKeyframeIndex);
 		}
 
 		private void SetupParameter(BaseParameterUI parameterUI, BaseParameterEditor parameterEditor)

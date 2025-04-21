@@ -12,6 +12,7 @@ namespace Enlighten.UI
 	{
 		private RectTransform m_pointsParent;
 		private ChartCurveRenderer m_curveRenderer;
+		private GameObject m_selectedKeyframeIndicator;
 		private BundleLoading.Assets m_assets;
 		private GenericParameter<T> m_parameter;
 		private ChartKeyframe[] m_keyframes;
@@ -30,13 +31,26 @@ namespace Enlighten.UI
 			Transform graph = transform.Find("Graph");
 			m_pointsParent = graph.Find("Points").GetComponent<RectTransform>();
 			m_curveRenderer = graph.Find("Curves").gameObject.AddComponent<ChartCurveRenderer>();
+			m_selectedKeyframeIndicator = graph.Find("SelectedKeyframeIndicator").gameObject;
 
 			m_onKeyframeSelected.AddListener(OnKeyframeSelected);
+			m_onKeyframeChanged.AddListener(OnKeyframeChanged);
 		}
 
 		private void OnKeyframeSelected(int index)
 		{
 			m_currentSelectedIndex = index;
+			UpdateSelectedKeyframeIndicator(index);
+		}
+
+		private void OnKeyframeChanged(int index)
+		{
+			UpdateSelectedKeyframeIndicator(index);
+		}
+
+		private void UpdateSelectedKeyframeIndicator(int index)
+		{
+			m_selectedKeyframeIndicator.transform.position = m_keyframes[index].transform.position;
 		}
 
 		public void OpenParameter(GenericParameter<T> parameter)
