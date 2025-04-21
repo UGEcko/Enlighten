@@ -69,7 +69,7 @@ namespace Enlighten.UI
 			}
 		}
 
-		private Vector2 LocalToChartPosition(Vector2 localPosition)
+		protected Vector2 LocalToChartPosition(Vector2 localPosition)
 		{
 			Vector2 chartPosition = localPosition - m_pointsParent.rect.min;
 			chartPosition /= m_pointsParent.rect.size;
@@ -78,7 +78,7 @@ namespace Enlighten.UI
 			return chartPosition;
 		}
 
-		private Vector2 ChartToLocalPosition(Vector2 chartPosition)
+		protected Vector2 ChartToLocalPosition(Vector2 chartPosition)
 		{
 			Vector2 localPosition = chartPosition;
 			localPosition.y /= m_chartHighBound - m_chartLowBound;
@@ -134,62 +134,14 @@ namespace Enlighten.UI
 			RedrawCurves();
 		}
 
-		protected void RedrawCurves()
-		{
-			m_curveRenderer.CalculateCurve(GetCurveLocalPoints(), 1, m_pointsParent.rect.height);
-		}
-
-		private IEnumerable<Vector2> GetCurveLocalPoints()
+		private void RedrawCurves()
 		{
 			GenericParameter<T>.Keyframe[] keyframes = m_parameter.SortedKeyframes;
-
-			if (keyframes.Length == 0)
-			{
-				yield break;
-			}
-
-			if (keyframes[0].m_time > 0)
-				yield return SampleTime(0);
-
-			for (int i = 0; i < keyframes.Length; i++)
-			{
-				GenericParameter<T>.Keyframe a = keyframes[i];
-				yield return SamplePoint(a);
-
-				if (i == keyframes.Length - 1)
-					continue;
-
-				GenericParameter<T>.Keyframe b = keyframes[i + 1];
-
-				const int RESOLUTION = 10;
-				for (int j = 1; j < RESOLUTION; j++)
-				{
-					float f = j / (float)RESOLUTION;
-					float t = Mathf.Lerp(a.m_time, b.m_time, f);
-					yield return SampleTime(t);
-				}
-			}
-
-			if (keyframes[keyframes.Length - 1].m_time < 1)
-				yield return SampleTime(1);
-
-			yield break;
-
-			Vector2 SampleTime(float t)
-			{
-				T value = m_parameter.Interpolate(t);
-				float y = ValueToChartYPosition(value);
-				Vector2 chartPosition = new Vector2(t, y);
-				return ChartToLocalPosition(chartPosition);
-			}
-
-			Vector2 SamplePoint(GenericParameter<T>.Keyframe key)
-			{
-				float y = ValueToChartYPosition(key.m_value);
-				Vector2 chartPosition = new Vector2(key.m_time, y);
-				return ChartToLocalPosition(chartPosition);
-			}
+			IEnumerable<Vector2> points = GetCurveLocalPoints(m_parameter, keyframes);
+			m_curveRenderer.CalculateCurve(points, 1, m_pointsParent.rect.height);
 		}
+
+		protected abstract IEnumerable<Vector2> GetCurveLocalPoints(GenericParameter<T> parameter, GenericParameter<T>.Keyframe[] keyframes);
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
