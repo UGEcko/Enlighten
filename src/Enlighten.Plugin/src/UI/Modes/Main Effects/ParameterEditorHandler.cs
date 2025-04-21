@@ -9,6 +9,7 @@ namespace Enlighten.UI
 		private BaseParameterEditor m_currentParameterEditor;
 
 		private FloatParameterEditor m_floatParameterEditor;
+		private BoolParameterEditor m_boolParameterEditor;
 
 		private RectTransform m_editorParent;
 
@@ -17,6 +18,11 @@ namespace Enlighten.UI
 			m_floatParameterEditor = rightContent.Find("FloatParameterEditor").gameObject.AddComponent<FloatParameterEditor>();
 			m_floatParameterEditor.Initialize(assets);
 			m_floatParameterEditor.gameObject.SetActive(false);
+			
+			m_boolParameterEditor = rightContent.Find("BoolParameterEditor").gameObject.AddComponent<BoolParameterEditor>();
+			m_boolParameterEditor.Initialize(assets);
+			m_boolParameterEditor.gameObject.SetActive(false);
+			
 			resizeableUI.m_onResize.AddListener(RedrawCurrentEditor);
 			m_editorParent = rightContent.GetComponent<RectTransform>();
 		}
@@ -37,7 +43,11 @@ namespace Enlighten.UI
 
 		public void SelectBoolParameter(BoolParameterUI boolParameterUI)
 		{
-			// TODO
+			if (boolParameterUI == m_currentParameterUI)
+				return;
+			
+			m_boolParameterEditor.OpenParameter(boolParameterUI.m_parameter);
+			SetupParameter(boolParameterUI, m_boolParameterEditor);
 		}
 
 		private void SetupParameter(BaseParameterUI parameterUI, BaseParameterEditor parameterEditor)

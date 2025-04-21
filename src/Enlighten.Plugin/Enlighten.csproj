@@ -102,6 +102,7 @@
     <Compile Include="src\UI\Modes\Main Effects\MainEffectsUI.cs" />
     <Compile Include="src\UI\Modes\Main Effects\OptionPanelUI.cs" />
     <Compile Include="src\UI\Modes\Main Effects\Parameter Editors\BaseParameterEditor.cs" />
+    <Compile Include="src\UI\Modes\Main Effects\Parameter Editors\BoolParameterEditor.cs" />
     <Compile Include="src\UI\Modes\Main Effects\Parameter Editors\ChartCurveRenderer.cs" />
     <Compile Include="src\UI\Modes\Main Effects\Parameter Editors\ChartKeyframe.cs" />
     <Compile Include="src\UI\Modes\Main Effects\Parameter Editors\ChartParameterEditor.cs" />
