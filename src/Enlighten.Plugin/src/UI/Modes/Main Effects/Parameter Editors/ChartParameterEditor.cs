@@ -171,8 +171,10 @@ namespace Enlighten.UI
 				AddKeyframe(eventData.position);
 				m_clickedCoroutine = null;
 			}
-
-			m_clickedCoroutine = StartCoroutine(ClickedTimer());
+			else
+			{
+				m_clickedCoroutine = StartCoroutine(ClickedTimer());
+			}
 		}
 
 		private IEnumerator ClickedTimer()
