@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,8 +23,10 @@ namespace Enlighten.UI
 
 		private IEnumerable<Segment> CalculateSegments(Vector2[] points, float thickness, float overshoot)
 		{
-			if (points.Length == 0)
-				yield break;
+			if (points.Length <= 1)
+			{
+				throw new Exception("There are 1 or less points, which is not enough for any segments.");
+			}
 
 			for (int i = 0; i < points.Length; i++)
 			{
