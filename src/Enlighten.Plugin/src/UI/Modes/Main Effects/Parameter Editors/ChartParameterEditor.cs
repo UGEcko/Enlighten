@@ -109,9 +109,10 @@ namespace Enlighten.UI
 		private void OnKeyframeMove(int index, Vector2 screenPosition)
 		{
 			Vector2 localPosition = ScreenToLocalPosition(screenPosition);
-
-			m_keyframes[index].transform.localPosition = localPosition;
 			Vector2 chartPosition = LocalToChartPosition(localPosition);
+			chartPosition.y = ValueToChartYPosition(ChartYPositionToValue(chartPosition.y));
+
+			m_keyframes[index].transform.localPosition = ChartToLocalPosition(chartPosition);
 			m_parameter[index] = ChartPositionToKeyframe(chartPosition);
 
 			m_onKeyframeChanged.Invoke(index);
