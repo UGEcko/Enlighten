@@ -4,7 +4,7 @@ namespace Enlighten.Core
 {
 	public class HueEffect : SimpleColorEffect
 	{
-		private readonly FloatParameter m_offset = new FloatParameter(0, "Offset", "How much to offset the of events' color.");
+		private readonly FloatParameter m_offset = new FloatParameter(0, "Offset", "How much to offset the hue of events' color.");
 
 		public HueEffect(string name, string description) : base(name, description)
 		{ }
